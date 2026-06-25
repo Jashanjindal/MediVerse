@@ -79,13 +79,13 @@ Rather than running multiple independent terminals, the **Unified Hub** connects
   ```
 
 ### 2. Clone and Setup Environment
-Clone the repository:
+Clone the repository and navigate to the `hub` directory:
 ```bash
 git clone https://github.com/Jashanjindal/MediVerse.git
-cd MediVerse
+cd MediVerse/hub
 ```
 
-Configure your environment variables by creating a `.env` file in the `hub/` directory:
+Configure your environment variables by creating a `.env` file in the current directory (`hub/`):
 ```env
 # Get your API key from Google AI Studio: https://aistudio.google.com/app/apikey
 GEMINI_API_KEY=your_gemini_api_key_here
@@ -99,13 +99,13 @@ OLLAMA_MODEL=llama3.2-vision
 ### 3. Install Dependencies
 Install all required libraries:
 ```bash
-pip install -r hub/requirements.txt
+pip install -r requirements.txt
 ```
 
 ### 4. Launch the Command Center
 Start the FastAPI server:
 ```bash
-python hub/app.py
+python app.py
 ```
 Open your browser and navigate to **`http://127.0.0.1:8000`** to access the MediVerse Hub dashboard.
 

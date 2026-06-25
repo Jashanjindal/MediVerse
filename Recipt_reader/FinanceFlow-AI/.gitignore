@@ -1,0 +1,8 @@
+.env
+__pycache__/
+outputs/
+data/
+bills.db
+venv/
+.vscode/
+*.pyc

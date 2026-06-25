@@ -1,0 +1,49 @@
+# IDE / Editor configuration
+.vscode/
+.idea/
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+bin/
+lib/
+include/
+share/
+pyvenv.cfg
+pip-selfcheck.json
+
+# Python / Jupyter Caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+# Environment configurations and Secrets
+.env
+.env.local
+.env.*
+*.env
+secrets.json
+*.key
+*.pem
+private/
+
+# SQLite databases & Chroma vector store database files
+*.db
+*.sqlite
+*.sqlite3
+vectorstore/
+**/vectorstore/
+**/chroma.sqlite3
+**/bills.db
+
+# OS specific files
+Thumbs.db
+.DS_Store
+
+# Temporary outputs
+outputs/
+**/outputs/

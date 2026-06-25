@@ -1,0 +1,265 @@
+# 💊 MediBot India — Local Medical AI Assistant
+
+<div align="center">
+
+![MediBot Banner](https://img.shields.io/badge/MediBot-India-blue?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyUzYuNDggMjIgMTIgMjIgMjIgMTcuNTIgMjIgMTIgMTcuNTIgMiAxMiAyWk0xMyAxN0gxMVYxMUgxM1YxN1pNMTMgOUgxMVY3SDEzVjlaIi8+PC9zdmc+)
+![Python](https://img.shields.io/badge/Python-3.10+-green?style=for-the-badge&logo=python)
+![Mistral](https://img.shields.io/badge/Mistral-7B-orange?style=for-the-badge)
+![LangChain](https://img.shields.io/badge/LangChain-Latest-purple?style=for-the-badge)
+![Offline](https://img.shields.io/badge/Runs-100%25%20Offline-red?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+
+### 🤖 Ask anything about Indian medicines — powered by local AI, zero internet needed!
+
+[Features](#-features) • [Demo](#-demo) • [Installation](#-installation) • [Usage](#-usage) • [Architecture](#-architecture) • [Tech Stack](#-tech-stack)
+
+</div>
+
+---
+
+## 🌟 What is MediBot India?
+
+> **MediBot India** is a fully offline, privacy-first Medical AI Assistant that answers questions about **253,973 Indian medicines** and **16,407 medical Q&A pairs** — all running locally on your laptop using Mistral 7B.
+
+No API keys. No internet. No data leaving your machine. Just pure AI magic. 🔥
+
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---|---|
+| 💊 **253K+ Medicines** | Complete A-Z Indian medicine database |
+| 🧠 **RAG Architecture** | Retrieval Augmented Generation for accurate answers |
+| 🔒 **100% Offline** | No internet, no API costs, no data privacy concerns |
+| ⚡ **Fast Search** | MiniLM embeddings search 361K chunks in milliseconds |
+| 🎨 **Beautiful UI** | Dark-themed Gradio interface with quick-question buttons |
+| 🤖 **Mistral 7B** | Powerful 7B parameter LLM running on local GPU |
+| 📊 **361K Chunks** | Massive knowledge base for comprehensive answers |
+
+---
+
+## 🎬 Demo
+
+```
+User    → "What is Paracetamol used for?"
+
+MediBot → "Paracetamol, also known as acetaminophen, is commonly 
+           used as a pain reliever and fever reducer. It works by 
+           blocking the production of certain chemicals in the body 
+           that cause pain and fever...
+           
+           ⚠️ Please consult a real doctor for proper diagnosis!"
+```
+
+```
+User    → "Price of Augmentin 625 in India?"
+
+MediBot → "Augmentin 625 Duo Tablet is manufactured by Glaxo 
+           SmithKline Pharmaceuticals Ltd. 
+           Price: ₹223.42
+           Pack Size: Strip of 10 tablets
+           Composition: Amoxycillin (500mg) + Clavulanic Acid (125mg)
+           
+           ⚠️ Please consult a real doctor before use!"
+```
+
+---
+
+## 🚀 Installation
+
+### Prerequisites
+- Python 3.10+
+- NVIDIA GPU (8GB+ VRAM recommended)
+- [Ollama](https://ollama.com/download) installed
+- 8GB+ RAM
+
+### Step 1 — Clone the repo
+```bash
+git clone https://github.com/Jashanjindal/MediBot.git
+cd MediBot
+```
+
+### Step 2 — Install dependencies
+```bash
+pip install langchain langchain-community ollama gradio pymupdf python-docx chromadb sentence-transformers pandas
+```
+
+### Step 3 — Pull Mistral model
+```bash
+ollama pull mistral
+```
+
+### Step 4 — Download datasets
+Download these datasets and place in `data/` folder:
+- [A-Z Medicines Dataset of India](https://www.kaggle.com/datasets/shudhanshusingh/az-medicine-dataset-of-india) → `A_Z_medicines_dataset_of_india.csv`
+- [Medical Q&A Dataset](https://www.kaggle.com/datasets/keivalya/medquad-medicinal-question-answer-dataset) → `medDataset_processed.csv`
+
+### Step 5 — Build vectorstore
+```bash
+# Open ingest.ipynb in Jupyter and run all cells
+# This takes ~26 minutes (one time only!)
+jupyter notebook ingest.ipynb
+```
+
+### Step 6 — Launch MediBot!
+```bash
+# Run the final cell in the notebook OR
+python app.py
+# Opens at http://127.0.0.1:7860
+```
+
+---
+
+## 🧠 Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    USER QUESTION                         │
+│              "What is Paracetamol for?"                  │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│                  MiniLM EMBEDDINGS                       │
+│         Converts question → [0.22, -0.88, ...]          │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│                  CHROMADB SEARCH                         │
+│        Finds top 5 most relevant chunks                  │
+│        from 361,052 medical document chunks              │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│                  MISTRAL 7B LLM                          │
+│    Reads retrieved context + generates smart answer      │
+│    Running locally on your NVIDIA GPU                    │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│                  GRADIO UI                               │
+│         Beautiful dark-themed chat interface             │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🔧 Tech Stack
+
+| Component | Technology | Why |
+|---|---|---|
+| **LLM** | Mistral 7B via Ollama | Best 7B model, runs on 8GB VRAM |
+| **Embeddings** | MiniLM (sentence-transformers) | 50x faster than LLM embeddings |
+| **Vector DB** | ChromaDB | Fast similarity search |
+| **Framework** | LangChain | Connects all components |
+| **UI** | Gradio | Beautiful web interface |
+| **Language** | Python 3.10+ | ML ecosystem |
+
+---
+
+## 📊 Dataset Stats
+
+```
+Dataset 1 — A-Z Medicines of India
+├── Total medicines    : 253,973
+├── Columns            : name, price, manufacturer, composition
+└── Source             : Kaggle
+
+Dataset 2 — Medical Q&A
+├── Total Q&A pairs    : 16,407
+├── Columns            : question, answer, type
+└── Source             : Kaggle
+
+Combined
+├── Total documents    : 270,380
+├── After chunking     : 361,052 chunks
+└── Embedding model    : all-MiniLM-L6-v2
+```
+
+---
+
+## 💡 Sample Questions to Try
+
+```
+💊 Medicine Info
+→ "What is Paracetamol used for?"
+→ "What medicines contain Amoxicillin?"
+→ "Composition of Augmentin 625?"
+
+💰 Pricing
+→ "Price of Dolo 650 in India?"
+→ "Cheapest fever medicines in India?"
+
+⚠️ Side Effects
+→ "Side effects of Azithromycin?"
+→ "Is Ibuprofen safe for children?"
+
+🏥 Medical Q&A
+→ "What are symptoms of diabetes?"
+→ "How to treat high blood pressure?"
+```
+
+---
+
+## ⚠️ Disclaimer
+
+> **MediBot India is for educational purposes only.**
+> Always consult a qualified medical professional before taking any medicine.
+> The creators are not responsible for any medical decisions made based on this tool.
+
+---
+
+## 🗂️ Project Structure
+
+```
+MediBot/
+│
+├── 📓 ingest.ipynb          ← Main notebook (run this!)
+├── 📄 app.py                ← Standalone Gradio app
+├── 📁 data/                 ← CSV datasets (download from Kaggle)
+│   ├── A_Z_medicines_dataset_of_india.csv
+│   └── medDataset_processed.csv
+├── 📁 vectorstore/          ← Auto-generated (not on GitHub)
+├── 📄 requirements.txt      ← Python dependencies
+├── 📄 .gitignore            ← Excludes large files
+└── 📄 README.md             ← You are here!
+```
+
+---
+
+## 🏆 What Makes This Special
+
+- ✅ **No API costs** — completely free to run
+- ✅ **Privacy first** — your medical questions never leave your laptop
+- ✅ **Indian medicine focused** — built specifically for Indian medicines with ₹ prices
+- ✅ **Massive knowledge base** — 361K chunks of medical knowledge
+- ✅ **Production ready UI** — looks and feels like a real product
+- ✅ **Reproducible** — anyone can clone and rebuild in 26 minutes
+
+---
+
+## 👨‍💻 Author
+
+**Jashan Jindal**
+- GitHub: [@Jashanjindal](https://github.com/Jashanjindal)
+- Project: [MediBot India](https://github.com/Jashanjindal/MediBot)
+
+---
+
+## 📜 License
+
+MIT License — free to use, modify, and distribute!
+
+---
+
+<div align="center">
+
+**Built with ❤️ in India 🇮🇳**
+
+*If this helped you, give it a ⭐ on GitHub!*
+
+</div>

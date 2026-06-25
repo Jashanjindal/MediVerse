@@ -1,0 +1,10 @@
+streamlit
+opencv-python
+google-genai
+python-dotenv
+Pillow
+numpy
+requests
+gradio
+matplotlib
+pandas
